@@ -23,21 +23,43 @@ dotenv.config();
 
 const app = express();
 
-// ================== MIDDLEWARE ==================
-app.use(
-  cors({
-    origin: process.env.CLIENT_URL || "http://localhost:5173",
-    credentials: true,
-  })
-);
-
-app.use(express.json({ limit: "10mb" }));
-app.use(express.urlencoded({ extended: true }));
-
 // ================== DATABASE ==================
 connectDB();
 
-// ================== HEALTH CHECK ==================
+// ================== CORS ==================
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://lbfa-loan-software.vercel.app",
+  process.env.CLIENT_URL,
+].filter(Boolean);
+
+console.log("✅ Allowed CORS Origins:", allowedOrigins);
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    // allow requests like Postman / server-to-server / same-origin with no origin
+    if (!origin) return callback(null, true);
+
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+
+    console.error("❌ Blocked by CORS:", origin);
+    return callback(new Error("Not allowed by CORS"));
+  },
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  optionsSuccessStatus: 200,
+};
+
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
+
+// ================== BODY PARSER ==================
+app.use(express.json({ limit: "10mb" }));
+app.use(express.urlencoded({ extended: true }));
+
 // ================== HEALTH CHECK ==================
 app.get("/", (req, res) => {
   res.status(200).json({
@@ -50,6 +72,7 @@ app.get("/api/health", (req, res) => {
   res.status(200).json({
     success: true,
     message: "🚀 Loan EMI Backend Running",
+    clientUrl: process.env.CLIENT_URL || null,
   });
 });
 
@@ -76,7 +99,7 @@ app.use((req, res) => {
 
 // ================== GLOBAL ERROR HANDLER ==================
 app.use((err, req, res, next) => {
-  console.error("🔥 SERVER ERROR:", err);
+  console.error("🔥 SERVER ERROR:", err.message);
 
   res.status(err.status || 500).json({
     success: false,
