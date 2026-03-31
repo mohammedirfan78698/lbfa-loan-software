@@ -1,0 +1,27 @@
+# dependencies
+node_modules/
+
+# environment files
+.env
+.env.*
+!.env.example
+
+# build folders
+dist/
+build/
+coverage/
+
+# logs
+*.log
+logs/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# editor files
+.vscode/
+
+# misc
+*.tmp
+*.cache
