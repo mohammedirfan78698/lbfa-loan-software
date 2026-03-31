@@ -35,21 +35,36 @@ const allowedOrigins = [
 
 console.log("✅ Allowed CORS Origins:", allowedOrigins);
 
-const corsOptions = {
-  origin: function (origin, callback) {
-    if (!origin) return callback(null, true);
+// Manual CORS headers first
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
 
-    if (allowedOrigins.includes(origin)) {
-      return callback(null, true);
-    }
+  if (origin && allowedOrigins.includes(origin)) {
+    res.header("Access-Control-Allow-Origin", origin);
+  }
 
-    console.error("❌ Blocked by CORS:", origin);
-    return callback(new Error("Not allowed by CORS"));
-  },
-  credentials: true,
-};
+  res.header("Vary", "Origin");
+  res.header("Access-Control-Allow-Credentials", "true");
+  res.header("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,DELETE,OPTIONS");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+  );
 
-app.use(cors(corsOptions));
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(200);
+  }
+
+  next();
+});
+
+// Keep cors middleware too
+app.use(
+  cors({
+    origin: allowedOrigins,
+    credentials: true,
+  })
+);
 
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true }));
