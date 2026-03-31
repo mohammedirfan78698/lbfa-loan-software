@@ -38,6 +38,14 @@ app.use(express.urlencoded({ extended: true }));
 connectDB();
 
 // ================== HEALTH CHECK ==================
+// ================== HEALTH CHECK ==================
+app.get("/", (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: "LBFA backend is live",
+  });
+});
+
 app.get("/api/health", (req, res) => {
   res.status(200).json({
     success: true,
