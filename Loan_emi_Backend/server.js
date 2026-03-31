@@ -37,7 +37,6 @@ console.log("✅ Allowed CORS Origins:", allowedOrigins);
 
 const corsOptions = {
   origin: function (origin, callback) {
-    // allow requests like Postman / server-to-server / same-origin with no origin
     if (!origin) return callback(null, true);
 
     if (allowedOrigins.includes(origin)) {
@@ -48,15 +47,10 @@ const corsOptions = {
     return callback(new Error("Not allowed by CORS"));
   },
   credentials: true,
-  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-  optionsSuccessStatus: 200,
 };
 
 app.use(cors(corsOptions));
-app.options("*", cors(corsOptions));
 
-// ================== BODY PARSER ==================
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true }));
 
