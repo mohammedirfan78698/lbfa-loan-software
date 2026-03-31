@@ -16,9 +16,7 @@ import pdfRoutes from "./routes/pdf.routes.js";
 import authRoutes from "./routes/auth.routes.js";
 import insuranceRoutes from "./routes/insurance.routes.js";
 import memberLedgerRoutes from "./routes/memberLedger.routes.js";
-import ledgerRoutes from "./routes/ledger.routes.js";
-
-
+// import ledgerRoutes from "./routes/ledger.routes.js";
 
 // ================== INIT ==================
 dotenv.config();
@@ -35,10 +33,10 @@ app.use(express.urlencoded({ extended: true }));
 connectDB();
 
 // ================== HEALTH CHECK ==================
-app.get("/", (req, res) => {
+app.get("/api/health", (req, res) => {
   res.status(200).json({
     success: true,
-    message: "🚀 Loan EMI Backend Running"
+    message: "🚀 Loan EMI Backend Running",
   });
 });
 
@@ -53,13 +51,13 @@ app.use("/api/export", exportRoutes);
 app.use("/api/pdf", pdfRoutes);
 app.use("/api/insurance", insuranceRoutes);
 app.use("/api/ledger", memberLedgerRoutes);
-//app.use("/api/ledger", ledgerRoutes);
+// app.use("/api/ledger", ledgerRoutes);
 
 // ================== 404 HANDLER ==================
 app.use((req, res) => {
   res.status(404).json({
     success: false,
-    message: "API Route not found"
+    message: "API Route not found",
   });
 });
 
@@ -69,7 +67,7 @@ app.use((err, req, res, next) => {
 
   res.status(err.status || 500).json({
     success: false,
-    message: err.message || "Internal Server Error"
+    message: err.message || "Internal Server Error",
   });
 });
 

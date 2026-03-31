@@ -6,10 +6,8 @@ const connectDB = async () => {
 
     console.log("✅ Mongo Connected");
     console.log("📂 Database Name:", conn.connection.name);
-    console.log("🔗 Full URI:", process.env.MONGO_URI);
-
   } catch (error) {
-    console.error("DB Error:", error);
+    console.error("DB Error:", error.message);
     process.exit(1);
   }
 };
