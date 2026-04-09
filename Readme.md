@@ -2,6 +2,43 @@
 
 LBFA Loan Software is a loan and member ledger management system built with separate frontend and backend applications.
 
+
+A full-stack Loan & Member Ledger Management System designed to handle customer records, loan tracking, EMI schedules, and financial reports efficiently.
+
+---
+
+## 🌐 Live Demo
+
+👉 **Frontend (Vercel):**  
+https://lbfa-loan-software-k6ac.vercel.app  
+
+👉 **Backend API:**  
+https://lbfa-loan-software-1.onrender.com/api  
+
+---
+
+## 📸 Project Preview
+
+### Dashboard
+![Dashboard](screenshots/dashboard.png.png)
+![Dashboard](screenshots/dashboard2.png.png)
+![Dashboard](screenshots/dashboard3.png.png)
+
+
+### member Management
+![Members](screenshots/member.png.png)
+![Members](screenshots/member_add.png.png)
+
+
+
+### Reports
+![Reports](screenshots/monthlyreports.png.png)
+![Reports](screenshots/monthlyreports2.png.png)
+![Reports](screenshots/monthlyreports3.png.png)
+
+
+
+
 ## Project Structure
 
 ```bash
